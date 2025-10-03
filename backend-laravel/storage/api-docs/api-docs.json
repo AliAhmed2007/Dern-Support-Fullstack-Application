@@ -1,0 +1,2812 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Swagger with Laravel",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/bills": {
+            "get": {
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "List all bills",
+                "description": "Retrieve a paginated list of bills. Non-admin users only see their own bills.",
+                "operationId": "076c544af766a6edaaadfb0ee0b59ae9",
+                "parameters": [
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Filter bills by status",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of bills",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Bill"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "Create a new bill",
+                "description": "Create and store a new bill. (Admin only)",
+                "operationId": "e98a0161f26ed0036b48ca2364c1a695",
+                "requestBody": {
+                    "description": "Bill details",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BillCreateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Bill created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bill created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Bill"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/bills/{bill_id}": {
+            "get": {
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "Get bill details",
+                "description": "Retrieve a specific bill by ID. Non-admin users can only access their own bills.",
+                "operationId": "dcbd14e98957c86c13e7d588b286b5f8",
+                "parameters": [
+                    {
+                        "name": "bill_id",
+                        "in": "path",
+                        "description": "ID of the bill",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Bill details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Bill"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "Update a bill",
+                "description": "Update an existing bill. (Admin only)",
+                "operationId": "ae2e4cc1991e9c4b1bee845e86a8d664",
+                "parameters": [
+                    {
+                        "name": "bill_id",
+                        "in": "path",
+                        "description": "ID of the bill to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Updated bill data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BillUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Bill updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bill updated successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Bill"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "Delete a bill",
+                "description": "Delete the specified bill. (Admin only)",
+                "operationId": "dfe9b1c9d50381fad787a590ea2e62f7",
+                "parameters": [
+                    {
+                        "name": "bill_id",
+                        "in": "path",
+                        "description": "ID of the bill to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Bill deleted successfully"
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/bills/{bill_id}/courier-fee": {
+            "post": {
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "Add courier fee to a bill",
+                "description": "Add a courier fee to the specified bill. (Admin only)",
+                "operationId": "f0e43640a325132a1394a906f6629e54",
+                "parameters": [
+                    {
+                        "name": "bill_id",
+                        "in": "path",
+                        "description": "ID of the bill",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Courier fee data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "courier_amount": {
+                                        "type": "number",
+                                        "example": 5
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Courier fee added",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Courier fee added"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Bill"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/booked-slots": {
+            "get": {
+                "tags": [
+                    "Scheduling"
+                ],
+                "summary": "List booked time slots",
+                "description": "Retrieve paginated list of booked time slots with optional filters.",
+                "operationId": "d978d7771e8758955ba70c184603058c",
+                "parameters": [
+                    {
+                        "name": "technician_id",
+                        "in": "query",
+                        "description": "Filter by technician ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "description": "Filter by start date (YYYY-MM-DD)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "description": "Filter by end date (YYYY-MM-DD)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Include related resources (comma-separated, e.g., technician, repair-request)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "technician",
+                                "repair-request"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/BookedTimeSlot"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Scheduling"
+                ],
+                "summary": "Create new booked slot",
+                "description": "Create a new technician time slot booking.",
+                "operationId": "095bf6bd0277e23c4755c4883a89be84",
+                "requestBody": {
+                    "description": "Booked time slot details",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BookedTimeSlot"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Booking created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BookedTimeSlot"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Time slot conflict"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationError"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/booked-slots/{id}": {
+            "get": {
+                "tags": [
+                    "Scheduling"
+                ],
+                "summary": "Get booked slot details",
+                "description": "Retrieve details of a specific booked time slot.",
+                "operationId": "aeb5882da4191893f26e700e4284ecee",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Booking ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Booked slot details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BookedTimeSlot"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Scheduling"
+                ],
+                "summary": "Update booked slot",
+                "description": "Update an existing technician time slot booking.",
+                "operationId": "cf44944b02b5277526f77a51e3428e87",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Booking ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Updated booked time slot data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BookedTimeSlotUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Booking updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BookedTimeSlot"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Time slot conflict"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationError"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Scheduling"
+                ],
+                "summary": "Delete booked slot",
+                "description": "Delete a booked time slot.",
+                "operationId": "cb1af9462452436bcaa2dfb93847b7e4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Booking ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Booking deleted"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/plans": {
+            "get": {
+                "tags": [
+                    "Plans"
+                ],
+                "summary": "List all plans",
+                "description": "Retrieve all available plans.",
+                "operationId": "000824ea04c2b5f2039de937145a6035",
+                "responses": {
+                    "200": {
+                        "description": "A list of plans",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Plan"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Plans"
+                ],
+                "summary": "Create a new plan",
+                "description": "Create a new subscription plan. Only admins can perform this action.",
+                "operationId": "771d8207153f10500c8e6af7e300d789",
+                "requestBody": {
+                    "description": "Plan object that needs to be created",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "monthly_price",
+                                    "annually_price"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Basic Plan"
+                                    },
+                                    "monthly_price": {
+                                        "type": "number",
+                                        "example": 9.99
+                                    },
+                                    "annually_price": {
+                                        "type": "number",
+                                        "example": 99.99
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Plan created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Plan created successfully."
+                                        },
+                                        "plan": {
+                                            "$ref": "#/components/schemas/Plan"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/plans/{plan_id}": {
+            "get": {
+                "tags": [
+                    "Plans"
+                ],
+                "summary": "Get a specific plan",
+                "description": "Retrieve details for a single plan by its ID.",
+                "operationId": "3c4c7d4406b6d411be994cec2e9e172b",
+                "parameters": [
+                    {
+                        "name": "plan_id",
+                        "in": "path",
+                        "description": "ID of the plan to retrieve",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Plan details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Plan"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Plans"
+                ],
+                "summary": "Update an existing plan",
+                "description": "Update details of an existing plan. Only admins can perform this action.",
+                "operationId": "57d8afbaa35b1e68401f98f041974853",
+                "parameters": [
+                    {
+                        "name": "plan_id",
+                        "in": "path",
+                        "description": "ID of the plan to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Plan object with updated data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Updated Plan Name"
+                                    },
+                                    "monthly_price": {
+                                        "type": "number",
+                                        "example": 12.99
+                                    },
+                                    "annually_price": {
+                                        "type": "number",
+                                        "example": 129.99
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Plan updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Plan updated successfully."
+                                        },
+                                        "plan": {
+                                            "$ref": "#/components/schemas/Plan"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Plans"
+                ],
+                "summary": "Delete a plan",
+                "description": "Remove a plan by its ID. Only admins can perform this action.",
+                "operationId": "042c9257be45cd3d5b9e219e84fd94d4",
+                "parameters": [
+                    {
+                        "name": "plan_id",
+                        "in": "path",
+                        "description": "ID of the plan to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Plan deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Plan deleted successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/subscriptions": {
+            "get": {
+                "tags": [
+                    "Subscriptions"
+                ],
+                "summary": "List all subscriptions (Admin only)",
+                "description": "Retrieve a list of all subscriptions. (Admin only)",
+                "operationId": "43ac45ff20ec05c7013da5b5b09f581d",
+                "responses": {
+                    "200": {
+                        "description": "List of subscriptions",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PlanSubscription"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Subscriptions"
+                ],
+                "summary": "Create new subscription",
+                "description": "Create a new subscription for the authenticated user.",
+                "operationId": "b957e7315aba36ee75e4a9b18a5fc878",
+                "requestBody": {
+                    "description": "Subscription details",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PlanSubscriptionCreate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Subscription created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PlanSubscription"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Existing active subscription"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationError"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/subscriptions/{id}": {
+            "get": {
+                "tags": [
+                    "Subscriptions"
+                ],
+                "summary": "Get subscription details",
+                "description": "Retrieve details of a specific subscription by its ID.",
+                "operationId": "43f04156948472d43900554274145767",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Subscription ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Subscription details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PlanSubscription"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Subscriptions"
+                ],
+                "summary": "Update subscription",
+                "description": "Update details of a subscription.",
+                "operationId": "cd9143fb824058caa81d167646698c07",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Subscription ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Subscription update data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PlanSubscriptionUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Subscription updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PlanSubscription"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationError"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Subscriptions"
+                ],
+                "summary": "Cancel subscription",
+                "description": "Cancel the specified subscription.",
+                "operationId": "bec9bbdc93d69eccffa4c6cddae98346",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Subscription ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Subscription canceled successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Subscription canceled successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/repair-requests": {
+            "get": {
+                "tags": [
+                    "Repair Requests"
+                ],
+                "operationId": "6927b3f4307110bc53bd91859ee37381",
+                "responses": {
+                    "200": {
+                        "description": "Request list"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Repair Requests"
+                ],
+                "operationId": "bcf5ace619aa690c88f314b5b7546bea",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RepairRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Request created"
+                    }
+                }
+            }
+        },
+        "/api/v1/repair-requests/{id}": {
+            "put": {
+                "tags": [
+                    "Repair Requests"
+                ],
+                "operationId": "5c24b4b97cba46b077a29f9c6f71294e",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RepairRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "updated successfully"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/repair-requests/{id}/assign-technician": {
+            "put": {
+                "tags": [
+                    "Repair Requests"
+                ],
+                "operationId": "47f55f726f48c5170609984f05f67e71",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "technician_id": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Technician assigned"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/repair-requests/{id}/status": {
+            "patch": {
+                "tags": [
+                    "Repair Requests"
+                ],
+                "operationId": "3a241457b165b69bb14b2bc3b4248cc7",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "status": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Status updated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/technicians": {
+            "get": {
+                "tags": [
+                    "Technicians"
+                ],
+                "summary": "Get all technicians",
+                "operationId": "c3c516f5cdc9fa17d03d4ab59763ad5f",
+                "responses": {
+                    "200": {
+                        "description": "List of technicians",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Technician"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Technicians"
+                ],
+                "summary": "Create a new technician",
+                "operationId": "e1d2dd8e74e3616c9a8eb1e97dd5db8a",
+                "requestBody": {
+                    "description": "Technician details",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TechnicianCreateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Technician created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Technician"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/technicians/{id}": {
+            "get": {
+                "tags": [
+                    "Technicians"
+                ],
+                "summary": "Get technician details",
+                "operationId": "cf54f645f638eca4988d2cd959e111ee",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Technician ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Technician details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Technician"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Technician not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Technicians"
+                ],
+                "summary": "Update technician details",
+                "operationId": "1afd81cc34b64a3115bf4e0fd5354cbe",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Technician ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Technician data to update",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TechnicianUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Technician updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Technician"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Technicians"
+                ],
+                "summary": "Delete a technician",
+                "operationId": "2af01a0926d2edc10546c79d55c07eb6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Technician ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Technician deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/tickets": {
+            "get": {
+                "tags": [
+                    "Tickets"
+                ],
+                "summary": "Get list of tickets",
+                "operationId": "aa173082967dc1109d4a82b9975ba6b8",
+                "responses": {
+                    "200": {
+                        "description": "List of tickets",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Ticket"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Tickets"
+                ],
+                "summary": "Create a new ticket",
+                "operationId": "ea682b4b2e24c649aeab9e4862602294",
+                "requestBody": {
+                    "description": "Ticket details",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TicketCreateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Ticket created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Ticket"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/tickets/{id}": {
+            "get": {
+                "tags": [
+                    "Tickets"
+                ],
+                "summary": "Get ticket details",
+                "operationId": "7d9ae46a6f051e4bbab3955f0ee3aa1d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Ticket ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ticket details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Ticket"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Ticket not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Tickets"
+                ],
+                "summary": "Update ticket details",
+                "operationId": "5a7fa169028b7276a7d8bc10ce45159d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Ticket ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Ticket update data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TicketUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ticket updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Ticket"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Tickets"
+                ],
+                "summary": "Delete a ticket",
+                "operationId": "92e8553ca90169f3008d45c84349feaf",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Ticket ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ticket deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/tickets/{id}/status": {
+            "put": {
+                "tags": [
+                    "Tickets"
+                ],
+                "summary": "Update ticket status",
+                "operationId": "a75f231f494e48d9683b92bcf38d0a3b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Ticket ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Status update data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "in progress",
+                                            "cancelled",
+                                            "resolved"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ticket status updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Ticket"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/tickets/user": {
+            "get": {
+                "tags": [
+                    "Tickets"
+                ],
+                "summary": "Get tickets for the authenticated user",
+                "operationId": "fbc96cfe37228052ee264141c46cac2c",
+                "responses": {
+                    "200": {
+                        "description": "List of user-related tickets",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Ticket"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get all users",
+                "description": "Retrieve a list of all users. (Admin only)",
+                "operationId": "fb2d7ca6f0a646cf7e04e09a68578d7c",
+                "responses": {
+                    "200": {
+                        "description": "List of users",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/User"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Create a new user",
+                "description": "Create a new user account. (Admin only)",
+                "operationId": "31d4b450f6274069e015d07110958a5f",
+                "requestBody": {
+                    "description": "User details",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserCreateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/users/{id}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get user details",
+                "description": "Retrieve the details of a specific user. A user may view their own account or an admin can view any account.",
+                "operationId": "324e31c8a86bdf9053945db730a89955",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update a user",
+                "description": "Update user account details. A user may update their own account or an admin can update any account.",
+                "operationId": "226ad6eb3bb4274cff2cd7068d1899aa",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the user to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "User update data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User updated successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete a user",
+                "description": "Delete the specified user. (Admin only)",
+                "operationId": "7c1acaa7775906196e7d02e91416b970",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the user to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "User deleted successfully"
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Technician": {
+                "title": "Technician",
+                "required": [
+                    "id",
+                    "name",
+                    "email",
+                    "phone_number",
+                    "specialization",
+                    "status"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "phone_number": {
+                        "type": "string"
+                    },
+                    "specialization": {
+                        "type": "string",
+                        "enum": [
+                            "hardware",
+                            "software"
+                        ]
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "booked",
+                            "unavailable",
+                            "available"
+                        ]
+                    },
+                    "avatar": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "TechnicianCreateRequest": {
+                "required": [
+                    "name",
+                    "email",
+                    "phone_number",
+                    "specialization",
+                    "status"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "phone_number": {
+                        "type": "string",
+                        "maxLength": 20
+                    },
+                    "specialization": {
+                        "type": "string",
+                        "enum": [
+                            "hardware",
+                            "software"
+                        ]
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "booked",
+                            "unavailable",
+                            "available"
+                        ]
+                    },
+                    "avatar": {
+                        "type": "string",
+                        "format": "binary",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "TechnicianUpdateRequest": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "phone_number": {
+                        "type": "string",
+                        "maxLength": 20
+                    },
+                    "specialization": {
+                        "type": "string",
+                        "enum": [
+                            "hardware",
+                            "software"
+                        ]
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "booked",
+                            "unavailable",
+                            "available"
+                        ]
+                    },
+                    "avatar": {
+                        "type": "string",
+                        "format": "binary",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "RepairRequest": {
+                "title": "RepairRequest",
+                "required": [
+                    "id",
+                    "description",
+                    "status"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Device not working"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "pending"
+                    }
+                },
+                "type": "object"
+            },
+            "Ticket": {
+                "title": "Ticket",
+                "required": [
+                    "id",
+                    "user_id",
+                    "description",
+                    "ticket_type",
+                    "status"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "ticket_type": {
+                        "type": "string",
+                        "enum": [
+                            "repair request",
+                            "general inquiry",
+                            "problem reporting"
+                        ]
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "in progress",
+                            "cancelled",
+                            "resolved"
+                        ]
+                    },
+                    "controlled_by": {
+                        "type": "integer",
+                        "format": "int64",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "TicketCreateRequest": {
+                "required": [
+                    "description",
+                    "ticket_type"
+                ],
+                "properties": {
+                    "description": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "ticket_type": {
+                        "type": "string",
+                        "enum": [
+                            "repair request",
+                            "general inquiry",
+                            "problem reporting"
+                        ]
+                    },
+                    "status": {
+                        "type": "string",
+                        "default": "in progress",
+                        "enum": [
+                            "in progress",
+                            "cancelled",
+                            "resolved"
+                        ]
+                    }
+                },
+                "type": "object"
+            },
+            "TicketUpdateRequest": {
+                "properties": {
+                    "description": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "ticket_type": {
+                        "type": "string",
+                        "enum": [
+                            "repair request",
+                            "general inquiry",
+                            "problem reporting"
+                        ]
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "in progress",
+                            "cancelled",
+                            "resolved"
+                        ]
+                    },
+                    "controlled_by": {
+                        "type": "integer",
+                        "format": "int64",
+                        "nullable": true
+                    },
+                    "repair_request_id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "title": "User",
+                "required": [
+                    "id",
+                    "name",
+                    "email",
+                    "user_type",
+                    "address_line",
+                    "city",
+                    "state"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "user_type": {
+                        "type": "string"
+                    },
+                    "business_name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "address_line": {
+                        "type": "string"
+                    },
+                    "city": {
+                        "type": "string"
+                    },
+                    "state": {
+                        "type": "string"
+                    },
+                    "avatar": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "UserCreateRequest": {
+                "required": [
+                    "name",
+                    "email",
+                    "password",
+                    "user_type",
+                    "address_line",
+                    "city",
+                    "state"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "password": {
+                        "type": "string",
+                        "minLength": 8
+                    },
+                    "user_type": {
+                        "type": "string"
+                    },
+                    "business_name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "address_line": {
+                        "type": "string"
+                    },
+                    "city": {
+                        "type": "string"
+                    },
+                    "state": {
+                        "type": "string"
+                    },
+                    "avatar": {
+                        "type": "string",
+                        "format": "binary",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "UserUpdateRequest": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "password": {
+                        "type": "string",
+                        "minLength": 8
+                    },
+                    "user_type": {
+                        "type": "string"
+                    },
+                    "business_name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "address_line": {
+                        "type": "string"
+                    },
+                    "city": {
+                        "type": "string"
+                    },
+                    "state": {
+                        "type": "string"
+                    },
+                    "avatar": {
+                        "type": "string",
+                        "format": "binary",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "Bill": {
+                "title": "Bill",
+                "required": [
+                    "id",
+                    "bill_number",
+                    "user_id",
+                    "service_amount",
+                    "final_amount"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "bill_number": {
+                        "type": "string"
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "repair_request_id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "nullable": true
+                    },
+                    "service_amount": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "tax_amount": {
+                        "type": "number",
+                        "format": "float",
+                        "nullable": true
+                    },
+                    "discount": {
+                        "type": "number",
+                        "format": "float",
+                        "nullable": true
+                    },
+                    "courier_amount": {
+                        "type": "number",
+                        "format": "float",
+                        "nullable": true
+                    },
+                    "final_amount": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "payment_method": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "due_date": {
+                        "type": "string",
+                        "format": "date",
+                        "nullable": true
+                    },
+                    "status": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "BillCreateRequest": {
+                "required": [
+                    "user_id",
+                    "service_amount"
+                ],
+                "properties": {
+                    "user_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "repair_request_id": {
+                        "type": "integer",
+                        "example": 2,
+                        "nullable": true
+                    },
+                    "service_amount": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 100
+                    },
+                    "tax_amount": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 5,
+                        "nullable": true
+                    },
+                    "discount": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 2,
+                        "nullable": true
+                    },
+                    "courier_amount": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 10,
+                        "nullable": true
+                    },
+                    "payment_method": {
+                        "type": "string",
+                        "example": "cash",
+                        "nullable": true
+                    },
+                    "due_date": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2025-12-31",
+                        "nullable": true
+                    },
+                    "hardware_components": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "component_name": {
+                                    "type": "string",
+                                    "example": "RAM"
+                                },
+                                "quantity": {
+                                    "type": "integer",
+                                    "example": 2
+                                },
+                                "unit_price": {
+                                    "type": "number",
+                                    "format": "float",
+                                    "example": 50
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "BillUpdateRequest": {
+                "properties": {
+                    "user_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "repair_request_id": {
+                        "type": "integer",
+                        "example": 2,
+                        "nullable": true
+                    },
+                    "service_amount": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 150,
+                        "nullable": true
+                    },
+                    "tax_amount": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 7.5,
+                        "nullable": true
+                    },
+                    "discount": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 3,
+                        "nullable": true
+                    },
+                    "courier_amount": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 12,
+                        "nullable": true
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "paid",
+                        "nullable": true
+                    },
+                    "payment_method": {
+                        "type": "string",
+                        "example": "credit_card",
+                        "nullable": true
+                    },
+                    "due_date": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2025-12-31",
+                        "nullable": true
+                    },
+                    "hardware_components": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "example": 1,
+                                    "nullable": true
+                                },
+                                "component_name": {
+                                    "type": "string",
+                                    "example": "SSD",
+                                    "nullable": true
+                                },
+                                "quantity": {
+                                    "type": "integer",
+                                    "example": 1,
+                                    "nullable": true
+                                },
+                                "unit_price": {
+                                    "type": "number",
+                                    "format": "float",
+                                    "example": 100,
+                                    "nullable": true
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "BookedTimeSlot": {
+                "title": "BookedTimeSlot",
+                "required": [
+                    "id",
+                    "start_time",
+                    "end_time"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "start_time": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "end_time": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "BookedTimeSlotUpdate": {
+                "properties": {
+                    "start_time": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "end_time": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "booked",
+                            "cancelled"
+                        ]
+                    }
+                },
+                "type": "object"
+            },
+            "Plan": {
+                "title": "Plan",
+                "required": [
+                    "id",
+                    "name",
+                    "monthly_price",
+                    "annually_price"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "monthly_price": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "annually_price": {
+                        "type": "number",
+                        "format": "float"
+                    }
+                },
+                "type": "object"
+            },
+            "PlanSubscription": {
+                "title": "PlanSubscription",
+                "required": [
+                    "id",
+                    "user_id",
+                    "plan_id",
+                    "type",
+                    "price",
+                    "start_date",
+                    "expiry_date",
+                    "status"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "plan_id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "monthly",
+                            "annually"
+                        ]
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "start_date": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "expiry_date": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "controlled_by": {
+                        "type": "integer",
+                        "format": "int64",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "PlanSubscriptionCreate": {
+                "required": [
+                    "plan_id",
+                    "type"
+                ],
+                "properties": {
+                    "plan_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "monthly",
+                            "annually"
+                        ],
+                        "example": "monthly"
+                    }
+                },
+                "type": "object"
+            },
+            "PlanSubscriptionUpdate": {
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "monthly",
+                            "annually"
+                        ],
+                        "example": "annually"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "responses": {
+            "ValidationError": {
+                "description": "Validation error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "example": "The given data was invalid."
+                                },
+                                "errors": {
+                                    "type": "object"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "Unauthorized": {
+                "description": "Unauthorized",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "example": "Unauthorized."
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "NotFound": {
+                "description": "Resource not found",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "example": "Resource not found."
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Bills",
+            "description": "API Endpoints for managing bills"
+        },
+        {
+            "name": "Scheduling",
+            "description": "Booked time slots management"
+        },
+        {
+            "name": "Plans",
+            "description": "API Endpoints for managing subscription plans"
+        },
+        {
+            "name": "Subscriptions",
+            "description": "Plan subscription management"
+        },
+        {
+            "name": "Repair Requests",
+            "description": "Repair request management"
+        },
+        {
+            "name": "Technicians",
+            "description": "API Endpoints for managing technicians"
+        },
+        {
+            "name": "Tickets",
+            "description": "API Endpoints for managing tickets"
+        },
+        {
+            "name": "Users",
+            "description": "API Endpoints for managing users (Admin and self-service)"
+        }
+    ]
+}

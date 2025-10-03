@@ -1,0 +1,215 @@
+/* 
+    Light Theme:
+     • bg-light-background
+     • text-light-primary
+     • text-light-secondary
+     • bg-light-surface-primary
+     • border-light-default
+     • shadow-light-custom
+
+    Dark Theme:
+     • dark:bg-dark-background
+     • dark:text-dark-primary
+     • dark:text-dark-secondary
+     • dark:bg-dark-surface-primary
+     • dark:border-dark-default
+     • dark:shadow-dark-custom 
+*/
+@import "tailwindcss";
+
+:root {
+    /* Light Theme */
+    --light-background: #FFFFFF;
+    /* Base background */
+    --light-text-primary: #1E293B;
+    /* High-contrast text */
+    --light-text-secondary: #64748B;
+    /* Subtle text */
+    --light-surface-primary: #F8FAFC;
+    /* Existing surface color */
+    --light-surface-secondary: #F1F5F9;
+    /* Existing surface color */
+    --light-border-default: #E2E8F0;
+    /* Existing border color */
+    --light-shadow-default: 0 8px 32px rgba(15, 23, 42, 0.1);
+    /* Existing shadow */
+    --light-shadow-scrolled:
+        0 4px 6px -1px rgba(15, 23, 42, 0.05),
+        0 2px 4px -2px rgba(15, 23, 42, 0.05),
+        0 10px 15px -3px rgba(15, 23, 42, 0.1);
+
+    --light-primary: #2563EB;
+    --light-secondary: #00F5E9;
+    --light-accent: #FF6B35;
+
+    /* Dark Theme */
+    --dark-background: #182033;
+    /* Softer dark background */
+    --dark-text-primary: #ffffff;
+    /* Soft white for readability */
+    --dark-text-secondary: #94A3B8;
+    /* Secondary text */
+    --dark-surface-primary: #1E293B;
+    /* Existing surface color */
+    --dark-surface-secondary: #2D3748;
+    /* Existing surface color */
+    --dark-border-default: #4A5568;
+    /* Existing border color */
+    --dark-shadow-default: 0 8px 32px rgba(0, 0, 0, 0.3);
+    /* Existing shadow */
+    --dark-shadow-scrolled:
+        0 4px 6px -1px rgba(0, 0, 0, 0.2),
+        0 2px 4px -2px rgba(0, 0, 0, 0.15),
+        0 10px 15px -3px rgba(0, 0, 0, 0.25);
+
+    --dark-primary: #3B82F6;
+    --dark-secondary: #00CED1;
+    --dark-accent: #FF7F50;
+
+    /* Add these for table interactions */
+    --light-primary-rgb: 37, 99, 235;
+    --dark-primary-rgb: 59, 130, 246;
+
+    /* Add these for status colors */
+    --light-status-success: #16a34a;
+    --light-status-warning: #ea580c;
+    --light-status-error: #dc2626;
+    --dark-status-success: #22c55e;
+    --dark-status-warning: #f97316;
+    --dark-status-error: #ef4444;
+
+    --light-primary-rgb: 37, 99, 235;
+    /* From --light-primary #2563EB */
+    --dark-primary-rgb: 59, 130, 246;
+    /* From --dark-primary #3B82F6 */
+
+    --light-row-hover: rgba(241, 245, 249, 0.5);
+    --dark-row-hover: rgba(45, 55, 72, 0.5);
+}
+
+@theme {
+    /* Light Theme Utilities */
+    --color-light-background: var(--light-background);
+    --color-light-primary: var(--light-text-primary);
+    --color-light-secondary: var(--light-text-secondary);
+    --color-light-surface-primary: var(--light-surface-primary);
+    --color-light-surface-secondary: var(--light-surface-secondary);
+    --border-color-light: var(--light-border-default);
+    --shadow-light: var(--light-shadow-default);
+    --shadow-light-scrolled: var(--light-shadow-scrolled);
+
+    --color-light-primary-color: var(--light-primary);
+    --color-light-secondary-color: var(--light-secondary);
+    --color-light-accent-color: var(--light-accent);
+
+    /* Dark Theme Utilities */
+    --color-dark-background: var(--dark-background);
+    --color-dark-primary: var(--dark-text-primary);
+    --color-dark-secondary: var(--dark-text-secondary);
+    --color-dark-surface-primary: var(--dark-surface-primary);
+    --color-dark-surface-secondary: var(--dark-surface-secondary);
+    --border-color-dark: var(--dark-border-default);
+    --shadow-dark: var(--dark-shadow-default);
+    --shadow-dark-scrolled: var(--dark-shadow-scrolled);
+
+    --color-dark-primary-color: var(--dark-primary);
+    --color-dark-secondary-color: var(--dark-secondary);
+    --color-dark-accent-color: var(--dark-accent);
+}
+
+.ant-menu-item-selected .ant-menu-title-content {
+    color: var(--accent-color) !important;
+    font-weight: bold !important;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+.ant-table-row {
+    transition: background-color 0.2s ease-in-out;
+}
+
+/* Clickable row indication */
+.ant-table-row:hover {
+    cursor: pointer;
+    box-shadow: inset 0 0 0 1px rgba(var(--light-primary-rgb), 0.1);
+}
+
+.dark .ant-table-row:hover {
+    box-shadow: inset 0 0 0 1px rgba(var(--dark-primary-rgb), 0.2);
+}
+
+.ant-layout-sider {
+    --trigger-height: 48px;
+    --trigger-color: inherit;
+}
+
+.ant-layout-sider-trigger {
+    background: transparent !important;
+    color: inherit !important;
+    height: var(--trigger-height) !important;
+    line-height: var(--trigger-height) !important;
+}
+
+.ant-menu-inline,
+.ant-menu-vertical {
+    border-right: 0 !important;
+}
+
+/* Custom tooltip styling */
+.ant-tooltip {
+    --tooltip-bg: var(--light-surface-primary);
+    --tooltip-color: var(--light-text-primary);
+}
+
+.dark .ant-tooltip {
+    --tooltip-bg: var(--dark-surface-primary);
+    --tooltip-color: var(--dark-text-primary);
+}
+
+.ant-tooltip-inner {
+    background-color: var(--tooltip-bg) !important;
+    color: var(--tooltip-color) !important;
+    border-radius: 6px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+.ant-tooltip-arrow::before {
+    background-color: var(--tooltip-bg) !important;
+}
+
+
+.scroll-style::-webkit-scrollbar {
+    width: 2px;
+    height: 2px;
+}
+
+.scroll-style::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.scroll-style::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 2px;
+}
+
+.bg-dark-background.scroll-style::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.scroll-style {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+.bg-dark-background.scroll-style {
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
