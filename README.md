@@ -18,7 +18,7 @@ A full-stack web application for IT solutions and support services. The platform
 ## 🛠️ Tech Stack
 
 * **Frontend:** React, TypeScript, TailwindCSS, Framer Motion, recharts
-* **Backend:** Laravel 12
+* **Backend:** Laravel 11
 * **Database:**  MySQL and Eloquent ORM
 * **Version Control:** Git & GitHub
 
@@ -28,7 +28,7 @@ A full-stack web application for IT solutions and support services. The platform
 
 ```
 /frontend-react   → Frontend (React + Tailwind)  
-/backend-laravel   → Backend API (Laravel 12)
+/backend-laravel   → Backend API (Laravel 11)
 ```
 
 ---
@@ -90,7 +90,7 @@ Pull requests are welcome! For major changes, please open an issue first to disc
 
 ## ✨ Author
 
-Developed by **Ali Ahmed** – Fullstack Developer passionate about scalable IT solutions.
+Developed by **Ali Ahmed** – Fullstack Developer passionate about scalable Software solutions.
 
 
 
